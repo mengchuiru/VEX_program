@@ -16,6 +16,7 @@ brain = Brain()
 controller = Controller()
 
 
+
 # VEX V5屏幕参数
 SCREEN_WIDTH = 480  # 屏幕宽
 SCREEN_HEIGHT = 240 # 屏幕高
