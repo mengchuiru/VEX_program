@@ -1,0 +1,18 @@
+{
+	"extension": {
+		"version": "0.6.1",
+		"json": 2
+	},
+	"project": {
+		"name": "code rain",
+		"description": "",
+		"creationDate": "2025/3/8 21:08:52",
+		"platform": "V5",
+		"language": "python",
+		"slot": 4,
+		"sdkVersion": "V5_1_0_1_25",
+		"python": {
+			"main": "src/main.py"
+		}
+	}
+}

@@ -1,0 +1,18 @@
+{
+	"extension": {
+		"version": "0.6.1",
+		"json": 2
+	},
+	"project": {
+		"name": "Greedy_Snake",
+		"description": "",
+		"creationDate": "2025/2/17 14:24:29",
+		"platform": "V5",
+		"language": "python",
+		"slot": 2,
+		"sdkVersion": "V5_1_0_1_25",
+		"python": {
+			"main": "src/main.py"
+		}
+	}
+}
