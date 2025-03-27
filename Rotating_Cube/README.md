@@ -11,5 +11,5 @@
 
 ## 效果
 
-![](images/cube.png)
+![](../Rotating_Cube/images/cube.png)
 
