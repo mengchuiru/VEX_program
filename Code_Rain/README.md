@@ -13,5 +13,9 @@
 
 ## 效果
 
+<<<<<<< HEAD
 ![](images/code_rain.png)
+=======
+![](./images/code_rain.png)
+>>>>>>> e3ffd01565b93a325bd1b365b31dfc4344fee4b4
 
