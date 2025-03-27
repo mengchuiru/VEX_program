@@ -13,5 +13,5 @@
 
 ## 效果
 
-![](./images/code_rain.png)
+![](images/code_rain.png)
 
