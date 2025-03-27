@@ -11,9 +11,5 @@
 
 ## 效果
 
-<<<<<<< HEAD
-![](../Rotating_Cube/images/cube.png)
-=======
 ![](./images/cube.png)
->>>>>>> e3ffd01565b93a325bd1b365b31dfc4344fee4b4
 
