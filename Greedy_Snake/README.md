@@ -19,5 +19,5 @@
 
 ## 效果
 
-![](./images/greedy_snake.png)
+![](images/greedy_snake.png)
 
