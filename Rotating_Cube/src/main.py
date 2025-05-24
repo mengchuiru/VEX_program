@@ -17,6 +17,7 @@ brain = Brain()
 
 class Cube:
     def __init__(self, x0, y0, scale, angle_x=0, angle_y=0):
+        # 定义立方体的顶点坐标
         self.vertices = [
             (-1, -1, -1),
             (1, -1, -1),
@@ -27,7 +28,7 @@ class Cube:
             (1, 1, 1),
             (-1, 1, 1),
         ]
-
+        # 定义立方体的边
         self.edges = [
             (0, 1),
             (1, 2),
@@ -42,9 +43,11 @@ class Cube:
             (2, 6),
             (3, 7),  # 侧边
         ]
+        # 定义立方体的中心坐标和缩放比例
         self.x0 = x0
         self.y0 = y0
         self.scale = scale
+        # 定义旋转角度和旋转速度
         self.angle_x = angle_x
         self.angle_y = angle_y
         self.angle_x_speed = 0.02
@@ -68,11 +71,12 @@ class Cube:
         # 更新旋转角度
         self.angle_x += self.angle_x_speed
         self.angle_y += self.angle_y_speed
-
+        # 清屏
         brain.screen.set_pen_color(Color.BLACK)
         brain.screen.draw_circle(
             self.x0, self.y0, self.scale * math.sqrt(3.3), Color.BLACK
         )
+        # 绘制立方体的每条边
         for edge in self.edges:
             start = self.vertices[edge[0]]
             end = self.vertices[edge[1]]
@@ -95,6 +99,8 @@ class Cube:
 
 
 # 动画循环
+
+# 创建两个立方体对象
 cube1 = Cube(120, 120, 60, 90, 90)
 cube2 = Cube(360, 120, 40)
 while True:
@@ -104,4 +110,3 @@ while True:
     cube2.draw_cube()
     brain.screen.render()
     wait(20)  # 等待20ms
-

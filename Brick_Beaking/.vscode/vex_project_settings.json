@@ -1,0 +1,18 @@
+{
+	"extension": {
+		"version": "0.7.2025041600",
+		"json": 2
+	},
+	"project": {
+		"name": "Brick_Beaking",
+		"description": "",
+		"creationDate": "2025/5/24 19:04:16",
+		"platform": "V5",
+		"language": "python",
+		"slot": 3,
+		"sdkVersion": "V5_1_0_1_25",
+		"python": {
+			"main": "src/main.py"
+		}
+	}
+}
