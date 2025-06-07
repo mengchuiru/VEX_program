@@ -25,36 +25,36 @@ BRICK_COL = 10  # 磁砖列数
 BRICK_WIDTH = WIDTH//BRICK_COL  # 磁砖宽度
 BRICK_HEIGHT = HEIGHT / 3//BRICK_ROW  # 磁砖高度
 
-
+# 设置初始变量
 bricks = []  # 磁砖列表
-# 初始化磁砖
 for i in range(BRICK_ROW):
     bricks.append([True] * BRICK_COL)
-
-# 设置变量
 ball_x = WIDTH // 2
 ball_y = HEIGHT // 2
-
 ball_speed_x = 2
 ball_speed_y = -2
-
 pabble_x = (WIDTH - PABBLE_WIDTH) // 2
+game_over = False 
+brick_num = BRICK_ROW * BRICK_COL  # 磁砖总数
+
 
 # 球的位置函数
-
-
 def ball_position():
-    global ball_x, ball_y, ball_speed_x, ball_speed_y
+    global ball_x, ball_y, ball_speed_x, ball_speed_y,game_over
     ball_x += ball_speed_x
     ball_y += ball_speed_y
-    if ball_y-BALL_RADIUS < 0 or ball_y + BALL_RADIUS > HEIGHT:
-        ball_speed_y = -ball_speed_y
+
     if ball_x-BALL_RADIUS < 0 or ball_x + BALL_RADIUS > WIDTH:
         ball_speed_x = -ball_speed_x
 
+    if ball_y-BALL_RADIUS < 0:
+        ball_speed_y = -ball_speed_y
+    if ball_y + BALL_RADIUS > HEIGHT:
+        
+        game_over = True
+        ball_speed_y = -ball_speed_y
+
 # 球拍的位置函数
-
-
 def pabble_position():
     global pabble_x
     if brain.screen.pressing():
@@ -68,12 +68,38 @@ def pabble_position():
             pabble_x = WIDTH - PABBLE_WIDTH
 
 
+
+
+# 矩形碰撞检测函数
+def collision_rect(rect_x, rect_y, rect_width, rect_height):
+    global ball_x, ball_y, ball_speed_x, ball_speed_y
+
+    x_is_col = rect_x-BALL_RADIUS < ball_x < rect_x + rect_width+ BALL_RADIUS 
+    y_is_col = rect_y-BALL_RADIUS < ball_y < rect_y + rect_height + BALL_RADIUS
+    if x_is_col and y_is_col:
+        if y_is_col :  
+            ball_speed_y = -ball_speed_y
+        elif x_is_col: 
+            ball_speed_x = -ball_speed_x
+        return True
+    return False
 # 碰撞检测函数
 def collision():
-    global ball_x, ball_y, ball_speed_x, ball_speed_y, pabble_x
-    if (ball_x + BALL_RADIUS > pabble_x and ball_x - BALL_RADIUS < pabble_x + PABBLE_WIDTH) and (ball_y + BALL_RADIUS > HEIGHT - PABBLE_HEIGHT):
-        ball_speed_y = -ball_speed_y
+    global ball_x, ball_y, ball_speed_x, ball_speed_y,brick_num
 
+    # 检测小球与球拍的碰撞
+    if collision_rect(pabble_x, HEIGHT - PABBLE_HEIGHT, PABBLE_WIDTH, PABBLE_HEIGHT):
+        ball_y = HEIGHT - PABBLE_HEIGHT - BALL_RADIUS  # 确保小球在球拍上方
+
+    # 检测小球与磁砖的碰撞
+    for i in range(BRICK_ROW):
+        for j in range(BRICK_COL):
+            if bricks[i][j]:  # 如果磁砖存在
+                if collision_rect(j * BRICK_WIDTH + 1, i * BRICK_HEIGHT + 1, BRICK_WIDTH - 2, BRICK_HEIGHT - 2):
+                    bricks[i][j] = False  # 磁砖被击中，设置为不存在
+                    brick_num -= 1  # 磁砖数量减少
+          
+    
 
 # 绘制小球函数
 def draw_ball(x, y):
@@ -82,8 +108,6 @@ def draw_ball(x, y):
     brain.screen.draw_circle(x, y, BALL_RADIUS)
 
 # 绘制球拍函数
-
-
 def draw_pabble(x):
     brain.screen.set_pen_color(Color.BLUE)  # 设置画笔颜色为蓝色
     brain.screen.set_fill_color(Color.BLUE)
@@ -91,8 +115,6 @@ def draw_pabble(x):
         x, HEIGHT - PABBLE_HEIGHT, PABBLE_WIDTH, PABBLE_HEIGHT)
 
 # 绘制磁砖函数
-
-
 def draw_brick():
     for i in range(BRICK_ROW):
         for j in range(BRICK_COL):
@@ -104,6 +126,47 @@ def draw_brick():
 
 
 while True:
+    if game_over:  # 如果游戏结束
+        brain.screen.set_pen_color(Color.WHITE)  # 设置画笔颜色为白色
+        brain.screen.set_fill_color(Color.WHITE)
+        brain.screen.set_font(FontType.MONO60)
+        brain.screen.print_at("Game Over",WIDTH // 2 - 120, HEIGHT // 2 + 20)  # 显示游戏结束
+        brain.screen.render()  # 刷新屏幕
+        if brain.screen.pressing():  # 等待按下屏幕
+            # 设置初始变量
+            bricks = []  # 磁砖列表
+            for i in range(BRICK_ROW):
+                bricks.append([True] * BRICK_COL)
+            ball_x = WIDTH // 2
+            ball_y = HEIGHT // 2
+            ball_speed_x = 2
+            ball_speed_y = -2
+            pabble_x = (WIDTH - PABBLE_WIDTH) // 2
+            game_over = False  
+            brick_num = BRICK_ROW * BRICK_COL  # 磁砖总数
+        wait(100)  # 等待2秒
+        continue
+    if brick_num <= 0:  # 如果磁砖数量为0
+        brain.screen.set_pen_color(Color.WHITE)  # 设置画笔颜色为白色
+        brain.screen.set_fill_color(Color.WHITE)
+        brain.screen.set_font(FontType.MONO60)
+        brain.screen.print_at("Game WIN",WIDTH // 2 - 120, HEIGHT // 2 + 20)  # 显示游戏结束
+        brain.screen.render()  # 刷新屏幕
+        if brain.screen.pressing():  # 等待按下屏幕
+            # 设置初始变量
+            bricks = []  # 磁砖列表
+            for i in range(BRICK_ROW):
+                bricks.append([True] * BRICK_COL)
+            ball_x = WIDTH // 2
+            ball_y = HEIGHT // 2
+            ball_speed_x = 2
+            ball_speed_y = -2
+            pabble_x = (WIDTH - PABBLE_WIDTH) // 2
+            game_over = False  
+            brick_num = BRICK_ROW * BRICK_COL  # 磁砖总数
+        wait(100)  # 等待2秒
+        continue
+
     brain.screen.clear_screen()  # 清屏
 
     ball_position()  # 更新小球位置
@@ -117,3 +180,5 @@ while True:
 
     brain.screen.render()  # 刷新屏幕
     wait(20)
+    
+game_over
