@@ -23,17 +23,19 @@ PABBLE_HEIGHT = 20  # 球拍高度
 BRICK_ROW = 5  # 磁砖行数
 BRICK_COL = 10  # 磁砖列数
 BRICK_GAP = 8  # 磁砖间隙
-BRICK_WIDTH = (WIDTH+BRICK_GAP)//BRICK_COL - BRICK_GAP   # 磁砖宽度
-BRICK_HEIGHT = HEIGHT / 2.5//BRICK_ROW - BRICK_GAP  # 磁砖高度
+BRICK_WIDTH = (WIDTH+BRICK_GAP)/BRICK_COL - BRICK_GAP   # 磁砖宽度
+BRICK_HEIGHT = HEIGHT / 2.5/BRICK_ROW - BRICK_GAP/2  # 磁砖高度
 
 # 设置初始变量
+colors = [Color.PURPLE, Color.ORANGE, Color.YELLOW,
+          Color.GREEN,  Color.CYAN,]  # 颜色列表
 bricks = []  # 磁砖列表
 for i in range(BRICK_ROW):
     bricks.append([True] * BRICK_COL)
 ball_x = WIDTH // 2
-ball_y = HEIGHT // 2
+ball_y = HEIGHT // 1.3
 ball_speed_x = 2
-ball_speed_y = -2
+ball_speed_y = -3
 pabble_x = (WIDTH - PABBLE_WIDTH) // 2
 game_over = False
 brick_num = BRICK_ROW * BRICK_COL  # 磁砖总数
@@ -119,10 +121,10 @@ def draw_pabble(x):
 def draw_brick():
     """ 绘制磁砖 """
     for i in range(BRICK_ROW):
+        brain.screen.set_pen_color(colors[i % len(colors)])
+        brain.screen.set_fill_color(colors[i % len(colors)])
         for j in range(BRICK_COL):
             if bricks[i][j]:
-                brain.screen.set_pen_color(Color.GREEN)  # 设置画笔颜色为绿色
-                brain.screen.set_fill_color(Color.GREEN)
                 brain.screen.draw_rectangle(
                     j * (BRICK_WIDTH+BRICK_GAP), i * (BRICK_HEIGHT+BRICK_GAP), BRICK_WIDTH, BRICK_HEIGHT)
 
@@ -149,8 +151,8 @@ while True:
             ball_speed_y = -2
             pabble_x = (WIDTH - PABBLE_WIDTH) // 2
             game_over = False
-            brick_num = BRICK_ROW * BRICK_COL  # 磁砖总数
-        wait(1000)  # 等待2秒
+            brick_num = BRICK_ROW * BRICK_COL
+        wait(500)  # 等待0.5秒
         continue
 
     brain.screen.clear_screen()  # 清屏
