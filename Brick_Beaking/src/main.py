@@ -165,4 +165,3 @@ while True:
     brain.screen.render()  # 刷新屏幕
     wait(20)
 
-game_over
